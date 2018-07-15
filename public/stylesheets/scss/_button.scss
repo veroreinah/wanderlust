@@ -1,6 +1,7 @@
 .btn {
   &.btn-wanderlust {
     outline: none;
+    box-shadow: none;
     background-image: linear-gradient(to right, $orange 0%, $pink 100%);
     color: $pink;
     padding: 2px;
@@ -23,5 +24,10 @@
         background: transparent;
       }
     }
+    &:not(.disabled) {
+      &:active:active {
+        background-image: linear-gradient(to right, $orange 0%, $pink 100%);
+      }
+    } 
   }
 }

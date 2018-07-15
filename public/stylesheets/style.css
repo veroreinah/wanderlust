@@ -4,6 +4,7 @@
 
 .btn.btn-wanderlust {
   outline: none;
+  box-shadow: none;
   background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);
   color: #e91e63;
   padding: 2px;
@@ -23,5 +24,7 @@
     color: #fff; }
     .btn.btn-wanderlust:hover span {
       background: transparent; }
+  .btn.btn-wanderlust:not(.disabled):active:active {
+    background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%); }
 
 /*# sourceMappingURL=style.css.map */
