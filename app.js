@@ -15,7 +15,7 @@ const flash = require("connect-flash");
 mongoose.Promise = Promise;
 mongoose
   .connect(
-    "mongodb://localhost/wanderlust",
+    process.env.MONGODB_URI,
     { useMongoClient: true }
   )
   .then(() => {
@@ -40,7 +40,7 @@ app.use(cookieParser());
 
 app.use(
   session({
-    secret: "tumblrlabdev",
+    secret: "basic-auth-secret",
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
@@ -60,6 +60,8 @@ app.use(
   })
 );
 
+hbs.registerPartials(path.join(__dirname, '/views/partials'));
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
@@ -67,13 +69,16 @@ app.use(express.static(path.join(__dirname, "uploads")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 app.use((req, res, next) => {
-  res.locals.title = "IronTumblr";
+  res.locals.title = "Wanderlust";
   res.locals.user = req.user;
 
   next();
 });
 
-const index = require("./routes/index");
-app.use("/", index);
+const indexRouter = require("./routes/index");
+const authRouter = require("./routes/authentication");
+
+app.use("/", indexRouter);
+app.use("/", authRouter);
 
 module.exports = app;
