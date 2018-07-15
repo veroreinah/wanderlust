@@ -1,0 +1,27 @@
+.navbar-wanderlust {
+  background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);
+  margin-bottom: 15px; }
+
+.btn.btn-wanderlust {
+  outline: none;
+  background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);
+  color: #e91e63;
+  padding: 2px;
+  position: relative;
+  border-radius: 0.5rem; }
+  .btn.btn-wanderlust span {
+    background: #fff;
+    padding: .375rem .75rem;
+    border-radius: 0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    transition: background 200ms ease; }
+  .btn.btn-wanderlust:hover {
+    color: #fff; }
+    .btn.btn-wanderlust:hover span {
+      background: transparent; }
+
+/*# sourceMappingURL=style.css.map */

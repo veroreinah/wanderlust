@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Log in</h1>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-6 mx-auto">
+      {{#if message}}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      {{/if}}
+      <form action="/login" method="post">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button class="btn btn-wanderlust" type="submit">
+          <span>Log in</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

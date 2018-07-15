@@ -1,13 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+<head>
+  <title>{{title}}</title>
+  {{#if useCroppie}}
+  <link rel="stylesheet" href="/stylesheets/lib/croppie.css" />
+  <script src="/javascripts/lib/croppie.min.js"></script>
+  {{/if}}
 
-    {{{body}}}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css" />
 
-    <script src='/javascripts/script.js' />
-  </body>
+  <script src="/javascripts/script.js"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-wanderlust navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img src="/images/logo/logo-white.png" width="30" height="30" class="d-inline-block align-top" alt="Wanderlust logo">
+      Wanderlust
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item{{homeActive}}">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        {{#if user}}
+
+        {{else}}
+        <li class="nav-item{{loginActive}}">
+          <a class="nav-link" href="/login">Log in</a>
+        </li>
+        <li class="nav-item{{signupActive}}">
+          <a class="nav-link" href="/signup">Sign up</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  </nav>
+
+  {{{body}}}
+
+</body>
 </html>

@@ -1,0 +1,27 @@
+.btn {
+  &.btn-wanderlust {
+    outline: none;
+    background-image: linear-gradient(to right, $orange 0%, $pink 100%);
+    color: $pink;
+    padding: 2px;
+    position: relative;
+    border-radius: 0.5rem;
+    span {
+      background: $white;
+      padding: .375rem .75rem;
+      border-radius: 0.3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      transition: background 200ms ease;
+    }
+    &:hover {
+      color: $white;
+      span {
+        background: transparent;
+      }
+    }
+  }
+}

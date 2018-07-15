@@ -1,8 +1,4 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+@import "scss/variables";
 
-a {
-  color: #00B7FF;
-}
+@import "scss/navbar";
+@import "scss/button";

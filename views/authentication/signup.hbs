@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Sign up</h1>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-6 mx-auto">
+      {{#if message}}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      {{/if}}
+      {{#if successMessage}}
+        <div class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      {{/if}}
+      <form id="signupForm" action="/signup" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="profilePic" id="profilePic">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="picture">Profile picture</label>
+          <input type="file" class="form-control-file" id="picture" required>
+        </div>
+        <div id="resizer-wrp" class="d-none"></div>
+        <button class="btn btn-wanderlust" type="submit">
+          <span>Sign up</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
