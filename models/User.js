@@ -5,10 +5,9 @@ const UserSchema = Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  profilePicPath: { type: String, required: true },
-  profilePicName: { type: String, required: true },
+  profilePicName: { type: String, default: "/images/avatar.png" },
   active: { type: Boolean, default: false },
-  confirmationCode: String,
+  confirmationCode: String
 });
 UserSchema.set("timestamps", true);
 

@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const ActivitySchema = Schema({
   name: { type: String, required: true },
   description: String,
-  placeId: { type: String, required: true }, // Google API
-  dateStart: { type: Date, required: true},
-  dateEnd: { type: Date, required: true},
+  placeId: String, // SYGIC TRAVEL API
+  dateStart: { type: Date, required: true },
+  dateEnd: { type: Date, required: true },
   color: { type: String }
 });
 
