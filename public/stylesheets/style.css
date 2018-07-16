@@ -1,6 +1,35 @@
 textarea {
   resize: none; }
 
+.masonry {
+  column-count: 1;
+  column-gap: 0;
+  margin-left: -10px;
+  margin-right: -10px; }
+  .masonry .item {
+    display: block;
+    break-inside: avoid;
+    padding: 10px;
+    color: #212529;
+    text-decoration: none; }
+    .masonry .item > div {
+      border: 1px solid #ddd;
+      transition: box-shadow 200ms, border-color 200ms; }
+    .masonry .item .data {
+      padding: 10px; }
+    .masonry .item:hover > div {
+      border-color: rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75); }
+  @media screen and (min-width: 768px) {
+    .masonry {
+      column-count: 2; } }
+  @media screen and (min-width: 992px) {
+    .masonry {
+      column-count: 3; } }
+  @media screen and (min-width: 1200px) {
+    .masonry {
+      column-count: 4; } }
+
 .navbar-wanderlust {
   background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);
   margin-bottom: 15px; }
