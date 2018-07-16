@@ -77,8 +77,10 @@ app.use((req, res, next) => {
 
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/authentication");
+const tripRouter = require("./routes/trip");
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
+app.use("/trips", tripRouter);
 
 module.exports = app;

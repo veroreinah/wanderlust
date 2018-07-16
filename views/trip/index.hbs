@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>My trips 🏖</h1>
+    </div>
+  </div>
+  <div class="row">
+    {{#if trips}}
+    <div class="col">
+      <a class="btn btn-wanderlust" href="/trips/create">
+        <span>Add new trip</span>
+      </a>
+    </div>
+    {{else}}
+    <div class="col-12 col-sm-8 mx-auto">
+      <div class="jumbotron">
+        <h2>You have not added any trip yet.</h2>
+        <p class="lead">Start planning your next trip...</p>
+        <a class="btn btn-wanderlust" href="/trips/create">
+          <span>Add new trip</span>
+        </a>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</div>

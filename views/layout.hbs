@@ -8,6 +8,13 @@
   <script src="/javascripts/lib/croppie.min.js"></script>
   <script src="/javascripts/signupScript.js"></script>
   {{/if}}
+  {{#if useDateRange}}
+  <link rel="stylesheet" href="/stylesheets/lib/daterangepicker.css" />
+  <script src="/javascripts/lib/jquery-3.3.1.min.js"></script>
+  <script src="/javascripts/lib/moment.min.js"></script>
+  <script src="/javascripts/lib/daterangepicker.js"></script>
+  <script src="/javascripts/createTripScript.js"></script>
+  {{/if}}
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
     crossorigin="anonymous">
@@ -35,6 +42,9 @@
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         {{#if user}}
+        <li class="nav-item{{tripsActive}}">
+          <a class="nav-link" href="/trips">Trips</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{user.username}}
@@ -55,6 +65,10 @@
         {{/if}}
       </ul>
     </div>
+
+    {{#if user}}
+    <a class="btn btn-outline-light" href="/trips/create">Add trip</a>
+    {{/if}}
   </nav>
 
   {{{body}}}

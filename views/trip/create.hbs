@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>New trip ✈️</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      {{#if message}}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      {{/if}}
+      {{#if successMessage}}
+        <div class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      {{/if}}
+      <form id="createTripForm" action="/trips/create" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea name="description" id="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="dates">Dates</label>
+          <input type="text" name="dates" id="dates" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="multiDestination">Type</label>
+          <select name="multiDestination" id="multiDestination">
+            <option value="false">One destination</option>
+            <option value="true">Multiple destinations</option>
+          </select>
+        </div>
+        <div class="form-group">
+          destinations
+        </div>
+        <div class="form-group">
+          <label for="picture">Picture</label>
+          <input type="file" class="form-control-file" name="picture" id="picture" required>
+        </div>
+        <button class="btn btn-wanderlust" type="submit">
+          <span>Create</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
