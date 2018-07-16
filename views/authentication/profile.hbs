@@ -1,19 +1,62 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-sm-6">
+    <div class="col">
       <h1>Profile</h1>
       <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-sm-3">
+      {{#if user.profilePicName}}
+      <img class="img-fluid mb-3" src="{{user.profilePicPath}}{{user.profilePicName}}" alt="{{user.username}}">
+      {{/if}}
+    </div>
+    <div class="col-8 col-sm-3">
       <dl>
         <dt>Username</dt>
-        <dd>{{user.username}}</dd>
+        <dd class="text-truncate">{{user.username}}</dd>
         <dt>Email</dt>
-        <dd>{{user.email}}</dd>
+        <dd class="text-truncate">{{user.email}}</dd>
       </dl>
     </div>
     <div class="col-12 col-sm-6">
-      {{#if user.profilePic}}
-      <img class="img-fluid" src="/users/{{user.profilePic}}" alt="{{user.username}}">
+      {{#if message}}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
       {{/if}}
+      {{#if successMessage}}
+        <div class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      {{/if}}
+      <form id="signupForm" action="/profile" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="profilePic" id="profilePic">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" class="form-control" required value="{{user.username}}">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" required value="{{user.email}}">
+        </div>
+        <div class="form-group">
+          <label for="old-password">Old password</label>
+          <input type="password" name="oldPassword" id="old-password" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="new-password">New password</label>
+          <input type="password" name="newPassword" id="new-password" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="picture">Profile picture</label>
+          <input type="file" class="form-control-file" id="picture">
+        </div>
+        <div id="resizer-wrp" class="d-none"></div>
+        <button class="btn btn-wanderlust" type="submit">
+          <span>Update</span>
+        </button>
+      </form>
     </div>
   </div>
 </div>

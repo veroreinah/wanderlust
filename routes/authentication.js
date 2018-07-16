@@ -43,7 +43,7 @@ router.post("/signup", ensureLoggedOut(), upload.none(), (req, res) => {
   const { username, email, password, profilePic } = req.body;
 
   const checkFields = new Promise((resolve, reject) => {
-    if (!username || !email || !passport || !profilePic) {
+    if (!username || !email || !password || !profilePic) {
       reject(new Error("You must fill all the fields and choose a profile picture."));
     } else if (!validateEmail(email)) {
       reject(new Error("You should write a valid email."));
@@ -75,8 +75,8 @@ router.post("/signup", ensureLoggedOut(), upload.none(), (req, res) => {
       username,
       email,
       password: hashPass,
-      profilePicPath: "/users",
-      profilePicName: username,
+      profilePicPath: "/users/",
+      profilePicName: username + ".png",
       confirmationCode
     });
 
@@ -131,7 +131,84 @@ router.get("/confirm/:confirmCode", ensureLoggedOut(), (req, res) => {
 });
 
 router.get("/profile", ensureLoggedIn("/login"), (req, res) => {
-  res.render("authentication/profile");
+  res.render("authentication/profile", {
+    message: req.flash("error"),
+    successMessage: req.flash("success"),
+    useCroppie: true
+  });
+});
+
+router.post("/profile", ensureLoggedIn("/login"), upload.none(), (req, res) => {
+  const { username, email, oldPassword, newPassword, profilePic } = req.body;
+
+  const checkFields = new Promise((resolve, reject) => {
+    if (!username || !email) {
+      reject(new Error("Username and email are required."));
+    } else if (!validateEmail(email)) {
+      reject(new Error("You should write a valid email."));
+    } else {
+      resolve();
+    }
+  });
+
+  console.log(oldPassword, newPassword);
+
+  const checkPassword = new Promise((resolve, reject) => {
+    if ((oldPassword !== "" && newPassword === "") || (oldPassword === "" && newPassword !== "")) {
+      reject(new Error("If you want to change your password, you should fill both password fields."));
+    } else if (oldPassword && newPassword && !bcrypt.compareSync(oldPassword, req.user.password)) {
+      reject(new Error("Incorrect old password."));
+    } else {
+      resolve();
+    }
+  });
+
+  checkFields.then(() => {
+    return checkPassword;
+  })
+  .then(() => {
+    return User.findOne({ username, _id: { $ne: req.user._id } });
+  })
+  .then(user => { // Change username and email
+    if (user) {
+      throw new Error("Username already exists.");
+    }
+
+    return User.findByIdAndUpdate(req.user._id, {
+      username,
+      email
+    });
+  })
+  .then(user => { // Change profile picture
+    if (profilePic !== "") {
+      console.log(profilePic);
+      base64Img.img(profilePic, "uploads/users/", user.username, (err, filepath) => {
+        if (err) {
+          throw new Error(err.message);
+        }
+      });
+
+      return User.findByIdAndUpdate(req.user._id, {
+        profilePicName: user.username + ".png"
+      });
+    }
+  })
+  .then(user => { // Change password
+    if (oldPassword && newPassword) {
+      const salt = bcrypt.genSaltSync(bcryptSalt);
+      const hashPass = bcrypt.hashSync(newPassword, salt);
+
+      return User.findByIdAndUpdate(req.user._id, { password: hashPass });
+    }
+  })
+  .then(user => {
+    req.flash("success", "Profile updated.");
+    res.redirect("/profile");
+  })
+  .catch(err => {
+    req.flash("error", err.message);
+    res.redirect("/profile");
+  });
 });
 
 router.get("/logout", ensureLoggedIn("/login"), (req, res) => {
