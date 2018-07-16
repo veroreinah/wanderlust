@@ -8,5 +8,5 @@ npm-debug.log
 .env
 
 uploads
-seeds.js
+seeds*.js
 .DS_Store

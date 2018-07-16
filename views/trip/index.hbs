@@ -5,14 +5,12 @@
     </div>
   </div>
   <div class="row">
-    {{#if trips}}
     <div class="col">
-      <a class="btn btn-wanderlust" href="/trips/create">
+      {{#if trips}}
+      <a class="btn btn-wanderlust mt-3" href="/trips/create">
         <span>Add new trip</span>
       </a>
-    </div>
-    {{else}}
-    <div class="col-12 col-sm-8 mx-auto">
+      {{else}}
       <div class="jumbotron">
         <h2>You have not added any trip yet.</h2>
         <p class="lead">Start planning your next trip...</p>
@@ -20,7 +18,26 @@
           <span>Add new trip</span>
         </a>
       </div>
+      {{/if}}
     </div>
-    {{/if}}
   </div>
+  {{#if trips}}
+  <div class="row">
+    <div class="col-12">
+      <div class="masonry mt-3">
+        {{#each trips}}
+          <a href="/trips/{{_id}}" class="item">
+            <div>
+              <img class="img-fluid" src="{{tripPicName}}" alt="{{name}}">
+              <div class="data">
+              <h4>{{name}}</h4>
+              <small>{{date_start}} - {{date_end}}</small>
+              </div>
+            </div>
+          </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </div>
