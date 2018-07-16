@@ -75,8 +75,7 @@ router.post("/signup", ensureLoggedOut(), upload.none(), (req, res) => {
       username,
       email,
       password: hashPass,
-      profilePicPath: "/users/",
-      profilePicName: username + ".png",
+      profilePicName: `/users/${username}.png`,
       confirmationCode
     });
 
@@ -118,7 +117,7 @@ router.get("/confirm/:confirmCode", ensureLoggedOut(), (req, res) => {
         throw new Error("Your account has already been activated.");
       }
 
-      return User.findOneAndUpdate(user._id, { active: true });
+      return User.findOneAndUpdate({ _id: user._id }, { active: true });
     })
     .then(user => {
       req.flash("success", "Your account has been activated.");
@@ -126,7 +125,7 @@ router.get("/confirm/:confirmCode", ensureLoggedOut(), (req, res) => {
     })
     .catch(err => {
       req.flash("error", err.message);
-      res.redirect("/signup");
+      res.redirect("/login");
     })
 });
 
@@ -150,8 +149,6 @@ router.post("/profile", ensureLoggedIn("/login"), upload.none(), (req, res) => {
       resolve();
     }
   });
-
-  console.log(oldPassword, newPassword);
 
   const checkPassword = new Promise((resolve, reject) => {
     if ((oldPassword !== "" && newPassword === "") || (oldPassword === "" && newPassword !== "")) {
@@ -189,7 +186,7 @@ router.post("/profile", ensureLoggedIn("/login"), upload.none(), (req, res) => {
       });
 
       return User.findByIdAndUpdate(req.user._id, {
-        profilePicName: user.username + ".png"
+        profilePicName: `/users/${user.username}.png`,
       });
     }
   })
