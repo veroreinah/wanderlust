@@ -1,6 +1,11 @@
+textarea {
+  resize: none; }
+
 .navbar-wanderlust {
   background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);
   margin-bottom: 15px; }
+  .navbar-wanderlust .btn-outline-light:hover {
+    color: #e91e63; }
 
 .btn.btn-wanderlust {
   outline: none;

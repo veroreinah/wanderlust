@@ -1,4 +1,9 @@
 .navbar-wanderlust {
   background-image: linear-gradient(to right, $orange 0%, $pink 100%);
   margin-bottom: 15px;
+  .btn-outline-light {
+    &:hover {
+      color: $pink;
+    }
+  }
 }
