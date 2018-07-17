@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col">
       <h1>New trip ✈️</h1>
+      <hr>
     </div>
   </div>
   <div class="row">
@@ -37,19 +38,20 @@
           </select>
         </div>
         <div class="form-group">
-          destinations
+          <label for="destination">Destination</label>
+          <select data-placeholder="- Select destination -" name="destination" id="destination" class="form-control" required>
+            <option value=""></option>
+            {{#each countries}}
+            <option value="{{sygicId}}-{{name}}">{{name}}</option>
+            {{/each}}
+            {{#each cities}}
+            <option value="{{sygicId}}-{{name}}">{{name}}</option>
+            {{/each}}
+          </select>
         </div>
         <div class="form-group">
           <label for="picture">Picture</label>
           <input type="file" class="form-control-file" name="picture" id="picture" required>
-        </div>
-        <div class="form-group">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="public" name="public">
-            <label class="form-check-label" for="public">
-              Public trip?
-            </label>
-          </div>
         </div>
         <button class="btn btn-wanderlust" type="submit">
           <span>Create</span>

@@ -133,7 +133,8 @@ router.get("/profile", ensureLoggedIn("/login"), (req, res) => {
   res.render("authentication/profile", {
     message: req.flash("error"),
     successMessage: req.flash("success"),
-    useCroppie: true
+    useCroppie: true,
+    userActive: " active"
   });
 });
 
