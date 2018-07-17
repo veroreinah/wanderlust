@@ -1,5 +1,25 @@
 .owl-carousel {
+  padding: 0 50px;
+  position: relative;
   .item {
     width: 150px;
+  }
+  .owl-nav {
+    font-size: 50px;
+    button {
+      position: absolute;
+      top: 75px;
+      transform: translateY(-50%);
+      outline: none;
+      &.disabled {
+        opacity: 0.5;
+      }
+      &.owl-prev {
+        left: 0;
+      }
+      &.owl-next {
+        right: 0;
+      }
+    }
   }
 }

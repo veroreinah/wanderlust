@@ -52,67 +52,61 @@ router.get("/create", ensureLoggedIn(), (req, res, next) => {
     });
 });
 
-router.post(
-  "/create",
-  upload.single("picture"),
-  ensureLoggedIn(),
-  (req, res, next) => {
-    let { name, description, dates, destination } = req.body;
-    const multiDestination = req.body.multiDestination === "true";
+router.post("/create", upload.single("picture"), ensureLoggedIn(), (req, res, next) => {
+  let { name, description, dates, destination } = req.body;
 
-    let tripPicName;
-    if (req.file) {
-      tripPicName = req.file.path.replace("uploads", "");
+  let tripPicName;
+  if (req.file) {
+    tripPicName = req.file.path.replace("uploads", "");
+  }
+
+  const checkFile = new Promise((resolve, reject) => {
+    if (!tripPicName) {
+      reject(new Error("Choose a picture."));
+    } else {
+      resolve();
     }
+  });
 
-    const checkFile = new Promise((resolve, reject) => {
-      if (!tripPicName) {
-        reject(new Error("Choose a picture."));
-      } else {
-        resolve();
+  checkFile
+    .then(() => {
+      let datesArr = dates.split(" - ");
+      const dateStart = new Date(datesArr[0]);
+      const dateEnd = new Date(datesArr[1]);
+      const destinations = [];
+
+      if (typeof destination === "string") {
+        destination = [destination];
       }
-    });
-
-    checkFile
-      .then(() => {
-        let datesArr = dates.split(" - ");
-        const dateStart = new Date(datesArr[0]);
-        const dateEnd = new Date(datesArr[1]);
-        const destinations = [];
-
-        if (typeof destination === "string") {
-          destination = [destination];
+      destination.forEach(e => {
+        if (e.length > 0) {
+          const eData = e.split("-");
+          destinations.push({
+            placeId: eData[0],
+            name: eData[1]
+          });
         }
-        destination.forEach(e => {
-          if (e.length > 0) {
-            const eData = e.split("-");
-            destinations.push({
-              placeId: eData[0],
-              name: eData[1]
-            });
-          }
-        });
-
-        const newTrip = new Trip({
-          name,
-          description,
-          userId: req.user._id,
-          dateStart,
-          dateEnd,
-          multiDestination,
-          destinations,
-          tripPicName: req.file.path.replace("uploads", "")
-        });
-
-        return newTrip.save();
-      })
-      .then(trip => {
-        res.redirect(`/trips/${trip._id}`);
-      })
-      .catch(err => {
-        req.flash("error", err.message);
-        res.redirect("/trips/create");
       });
+
+      const newTrip = new Trip({
+        name,
+        description,
+        userId: req.user._id,
+        dateStart,
+        dateEnd,
+        destinations,
+        tripPicName
+      });
+
+      return newTrip.save();
+    })
+    .then(trip => {
+      res.redirect(`/trips/${trip._id}`);
+    })
+    .catch(err => {
+      req.flash("error", err.message);
+      res.redirect("/trips/create");
+    });
   }
 );
 
@@ -218,6 +212,72 @@ router.get("/:id/delete", (req, res, next) => {
     })
     .catch(err => {
       next();
+    });
+});
+
+router.get("/:id/edit", ensureLoggedIn(), (req, res, next) => {
+  const promises = [Country.find(), City.find(), Trip.findById(req.params.id)];
+
+  Promise.all(promises)
+    .then(data => {
+      const trip = data[2];
+
+      trip.dateRange = `${moment(trip.dateStart).format("MM/DD/YYYY")} - ${moment(trip.dateEnd).format("MM/DD/YYYY")}`;
+
+      res.render("trip/edit", {
+        message: req.flash("error"),
+        successMessage: req.flash("success"),
+        tripsActive: " active",
+        useDateRange: true,
+        countries: data[0],
+        cities: data[1],
+        trip,
+        destinations: JSON.stringify(trip.destinations)
+      });
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.post("/:id/edit", upload.single("picture"), ensureLoggedIn(), (req, res, next) => {
+  let { name, description, dates, destination } = req.body;
+  
+  let datesArr = dates.split(" - ");
+  const dateStart = new Date(datesArr[0]);
+  const dateEnd = new Date(datesArr[1]);
+  const destinations = [];
+
+  if (typeof destination === "string") {
+    destination = [destination];
+  }
+  destination.forEach(e => {
+    if (e.length > 0) {
+      const eData = e.split("-");
+      destinations.push({ placeId: eData[0], name: eData[1] });
+    }
+  });
+
+  Trip.findByIdAndUpdate(req.params.id, {
+    name,
+    description,
+    dateStart,
+    dateEnd,
+    destinations
+  })
+    .then(trip => {
+      if (req.file) {
+        return Trip.findByIdAndUpdate(req.params.id, {
+          tripPicName: req.file.path.replace("uploads", ""),
+        });
+      }
+    })
+    .then(trip => {
+      res.redirect(`/trips/${req.params.id}`);
+    })
+    .catch(err => {
+      req.flash("error", err.message);
+      res.redirect(`/trips/${req.params.id}/edit`);
     });
 });
 

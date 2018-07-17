@@ -1,17 +1,13 @@
 $(function() {
   // Destination
+  if (window.destinations) {
+    $.each(window.destinations, (i, e) => {
+      $(`#destination option[value='${e.placeId}-${e.name}']`).prop("selected", true);
+    });
+  }
+
   const destinationField = $("#destination");
   destinationField.chosen();
-
-  $("#multiDestination").on("change", function() {
-    if ($(this).val() === "true") {
-      destinationField.attr("multiple", true);
-    } else {
-      destinationField.attr("multiple", false);
-    }
-    destinationField.chosen("destroy");
-    destinationField.chosen();
-  });
 
   // Dates
   const datesField = $("#dates");

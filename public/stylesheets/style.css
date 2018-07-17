@@ -1,6 +1,9 @@
 textarea {
   resize: none; }
 
+.chosen-container {
+  width: 100% !important; }
+
 .masonry {
   column-count: 1;
   column-gap: 0;
@@ -30,8 +33,24 @@ textarea {
     .masonry {
       column-count: 4; } }
 
-.owl-carousel .item {
-  width: 150px; }
+.owl-carousel {
+  padding: 0 50px;
+  position: relative; }
+  .owl-carousel .item {
+    width: 150px; }
+  .owl-carousel .owl-nav {
+    font-size: 50px; }
+    .owl-carousel .owl-nav button {
+      position: absolute;
+      top: 75px;
+      transform: translateY(-50%);
+      outline: none; }
+      .owl-carousel .owl-nav button.disabled {
+        opacity: 0.5; }
+      .owl-carousel .owl-nav button.owl-prev {
+        left: 0; }
+      .owl-carousel .owl-nav button.owl-next {
+        right: 0; }
 
 .navbar-wanderlust {
   background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);

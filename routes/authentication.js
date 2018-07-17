@@ -179,7 +179,6 @@ router.post("/profile", ensureLoggedIn("/login"), upload.none(), (req, res) => {
   })
   .then(user => { // Change profile picture
     if (profilePic !== "") {
-      console.log(profilePic);
       base64Img.img(profilePic, "uploads/users/", user.username, (err, filepath) => {
         if (err) {
           throw new Error(err.message);

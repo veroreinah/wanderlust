@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>New trip 🏕</h1>
+      <h1>Edit trip 🏔</h1>
       <hr>
     </div>
   </div>
@@ -17,18 +17,18 @@
           {{ successMessage }}
         </div>
       {{/if}}
-      <form id="createTripForm" action="/trips/create" method="post" enctype="multipart/form-data">
+      <form id="createTripForm" action="/trips/{{trip._id}}/edit" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" name="name" id="name" class="form-control" required>
+          <input type="text" name="name" id="name" class="form-control" value="{{trip.name}}" required>
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea name="description" id="description" class="form-control"></textarea>
+          <textarea name="description" id="description" class="form-control">{{trip.description}}</textarea>
         </div>
         <div class="form-group">
           <label for="dates">Dates</label>
-          <input type="text" name="dates" id="dates" class="form-control" required>
+          <input type="text" name="dates" id="dates" class="form-control" value="{{trip.dateRange}}" required>
         </div>
         <div class="form-group">
           <label for="destination">Destination</label>
@@ -44,12 +44,15 @@
         </div>
         <div class="form-group">
           <label for="picture">Picture</label>
-          <input type="file" class="form-control-file" name="picture" id="picture" required>
+          <input type="file" class="form-control-file" name="picture" id="picture">
         </div>
         <button class="btn btn-wanderlust" type="submit">
-          <span>Create</span>
+          <span>Update</span>
         </button>
       </form>
     </div>
   </div>
 </div>
+<script>
+  window.destinations = {{{destinations}}};
+</script>
