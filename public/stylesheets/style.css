@@ -30,11 +30,23 @@ textarea {
     .masonry {
       column-count: 4; } }
 
+.owl-carousel .item {
+  width: 150px; }
+
 .navbar-wanderlust {
   background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%);
   margin-bottom: 15px; }
   .navbar-wanderlust .btn-outline-light:hover {
     color: #e91e63; }
+
+.btn-wanderlust-container {
+  display: flex;
+  justify-content: space-between; }
+  .btn-wanderlust-container .btn-wanderlust {
+    flex-grow: 1;
+    margin-right: 10px; }
+    .btn-wanderlust-container .btn-wanderlust:last-child {
+      margin-right: 0; }
 
 .btn.btn-wanderlust {
   outline: none;
@@ -54,6 +66,8 @@ textarea {
     height: 100%;
     width: 100%;
     transition: background 200ms ease; }
+    .btn.btn-wanderlust span i {
+      margin-right: 5px; }
   .btn.btn-wanderlust:hover {
     color: #fff; }
     .btn.btn-wanderlust:hover span {

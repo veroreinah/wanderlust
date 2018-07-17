@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>{{trip.name}} ✈️</h1>
+      <small>{{trip.date_start}} - {{trip.date_end}}</small>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Best plans in {{trip.destinationsString}}</h3>
+      <div class="owl-carousel mb-3">
+      {{#each pois}}
+        <div class="item">
+          <img class="fluid-img mb-1" src="{{thumbnail_url}}" alt="{{name}}">
+          <h5 class="text-truncate mb-0">{{name}}</h5>
+          <p class="small text-truncate">{{name_suffix}}</p>
+        </div>
+      {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-8">
+      Add plans
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="btn-wanderlust-container mb-3">
+        <a href="/trips/{{trip._id}}/edit" class="btn btn-wanderlust">
+          <span><i class="fas fa-pencil-alt"></i>Edit</span>
+        </a>
+        <a href="/trips/{{trip._id}}/delete" class="btn btn-wanderlust">
+          <span><i class="fas fa-trash-alt"></i>Remove</span>
+        </a>
+      </div>
+      <p>{{trip.description}}</p>
+    </div>
+  </div>
+</div>

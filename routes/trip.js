@@ -117,12 +117,20 @@ router.post(
 );
 
 router.get("/:id", ensureLoggedIn(), (req, res, next) => {
+  let resultTrip;
   let pois = [];
 
   Trip.findById(req.params.id)
     .then(trip => {
-      trip.date_start = moment(trip.dateStart).format("MM-DD-YYYY");
-      trip.date_end = moment(trip.dateEnd).format("MM-DD-YYYY");
+      if (req.user._id.toString() !== trip.userId.toString()) {
+        res.redirect("/");
+        return;
+      }
+
+      resultTrip = trip;
+
+      resultTrip.date_start = moment(trip.dateStart).format("MM/DD/YYYY");
+      resultTrip.date_end = moment(trip.dateEnd).format("MM/DD/YYYY");
 
       const dbPromises = [];
       
@@ -181,10 +189,35 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
       return Promise.all(dbPromises);
     })
     .then(() => {
-      // res.render("trip/show", { trip, pois });
+      resultTrip.destinationsString = resultTrip.destinations.reduce((acc, currentValue, currentIndex) => {
+        let sep = ", ";
+        if (currentIndex === 0) {
+          sep = "";
+        } else if (currentIndex === resultTrip.destinations.length - 1) {
+          sep = " and ";
+        }
+
+        return acc + sep + currentValue.name;
+      }, "");
+
+      res.render("trip/show", { 
+        trip: resultTrip, 
+        pois,
+        tripsActive: " active"
+      });
     })
     .catch(err => {
       next(err);
+    });
+});
+
+router.get("/:id/delete", (req, res, next) => {
+  Trip.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.redirect("/trips");
+    })
+    .catch(err => {
+      next();
     });
 });
 

@@ -1,3 +1,15 @@
+.btn-wanderlust-container {
+  display: flex;
+  justify-content: space-between;
+  .btn-wanderlust {
+    flex-grow: 1;
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .btn {
   &.btn-wanderlust {
     outline: none;
@@ -17,6 +29,9 @@
       height: 100%;
       width: 100%;
       transition: background 200ms ease;
+      i {
+        margin-right: 5px;
+      }
     }
     &:hover {
       color: $white;

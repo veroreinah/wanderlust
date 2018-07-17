@@ -16,7 +16,10 @@ $(function() {
   // Dates
   const datesField = $("#dates");
   datesField.daterangepicker({
-    autoUpdateInput: false
+    autoUpdateInput: false,
+    locale: {
+      "firstDay": 1
+    }
   });
   datesField.on('apply.daterangepicker', function(ev, picker) {
     $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
