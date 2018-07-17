@@ -3,6 +3,35 @@
   position: relative;
   .item {
     width: 150px;
+    position: relative;
+    .add-activity {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      transition: opacity 200ms;
+      a {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        border-radius: 50%;
+        background: $lightGrey;
+        color: $black;
+        font-size: 24px;
+      }
+    }
+    &:hover {
+      .add-activity {
+        opacity: 1;
+      }
+    }
   }
   .owl-nav {
     font-size: 50px;

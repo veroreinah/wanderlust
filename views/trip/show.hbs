@@ -15,6 +15,9 @@
           <img class="fluid-img mb-1" src="{{thumbnail_url}}" alt="{{name}}">
           <h5 class="text-truncate mb-0">{{name}}</h5>
           <p class="small text-truncate">{{name_suffix}}</p>
+          <div class="add-activity">
+            <a href="/activities/create/{{../trip._id}}/{{id}}" class="text-center"><i class="fas fa-plus"></i></a>
+          </div>
         </div>
       {{/each}}
       </div>
