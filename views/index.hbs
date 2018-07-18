@@ -1,2 +1,43 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<section class="home">
+  <div class="jumbotron">
+    <h1 class="display-4">{{title}}</h1>
+    <p class="lead">ˈwändərˌləst</p>
+    <p class="lead">A strong desire to travel.</p>
+  </div>
+  <div id="component" class="component component-fullwidth">
+    <ul class="itemwrap">
+      {{#each images}}
+      <li class="{{class}}">
+        <div class="img" style="background-image: url('{{img}}');">
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+    <div class="d-none">
+      <nav>
+        <a class="prev" href="#"></a>
+        <a class="next" href="#"></a>
+      </nav>
+      <select id="fxselect" name="fxselect">
+        <option value="-1">None</option>
+        <option value="fxSoftScale" selected="selected">fxSoftScale</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<script src="/javascripts/home/modernizr.custom.js"></script>
+<script src="/javascripts/home/classie.js"></script>
+<script src="/javascripts/home/main.js"></script>
+<script type="text/javascript">
+  $(function () {
+    var tcambio = "5";
+    setInterval(function () {
+      changeSlide();
+    }, parseFloat(tcambio) * 1000);
+
+    function changeSlide() {
+      FxFullWidth.navigate('next');
+    }
+  });
+</script>
