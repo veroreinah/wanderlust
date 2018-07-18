@@ -2,8 +2,29 @@
   background-image: linear-gradient(to right, $orange 0%, $pink 100%);
   margin-bottom: 15px;
   .btn-outline-light {
+    display: none;
     &:hover {
       color: $pink;
+    }
+  }
+}
+
+.navbar-home {
+  position: absolute;
+  z-index: 100000;
+  background: none !important;
+  margin-bottom: 0;
+  width: 100%;
+  .btn-outline-light {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-wanderlust,
+  .navbar-home {
+    .btn-outline-light {
+      display: inline-block;
     }
   }
 }
