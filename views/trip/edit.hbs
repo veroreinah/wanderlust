@@ -32,13 +32,9 @@
         </div>
         <div class="form-group">
           <label for="destination">Destination</label>
-          <select data-placeholder="- Select destination -" name="destination" id="destination" class="form-control" multiple required>
-            <option value=""></option>
-            {{#each countries}}
-            <option value="{{sygicId}}-{{name}}">{{name}}</option>
-            {{/each}}
-            {{#each cities}}
-            <option value="{{sygicId}}-{{name}}">{{name}}</option>
+          <select name="destination" id="destination" class="form-control" multiple="multiple" required>
+            {{#each destinations}}
+            <option value="{{placeId}}-{{name}}" selected>{{name}}</option>
             {{/each}}
           </select>
         </div>
@@ -53,6 +49,3 @@
     </div>
   </div>
 </div>
-<script>
-  window.destinations = {{{destinations}}};
-</script>
