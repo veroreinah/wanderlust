@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
       { class: "", img: "/images/bg/bg3.jpg" },
       { class: "", img: "/images/bg/bg4.jpg" },
       { class: "", img: "/images/bg/bg5.jpg" },
-      { class: "", img: "/images/bg/bg6.jpg" }
+      { class: "overlay", img: "/images/bg/bg6.jpg" }
     ],
     homeActive: " active"
   });

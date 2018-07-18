@@ -1,15 +1,15 @@
 <section class="home">
   <div class="jumbotron">
     <h1 class="display-4">{{title}}</h1>
-    <p class="lead">ˈwändərˌləst</p>
+    <p class="lead">/ˈwɒndəˌlʌst/</p>
     <p class="lead">A strong desire to travel.</p>
   </div>
   <div id="component" class="component component-fullwidth">
     <ul class="itemwrap">
       {{#each images}}
       <li class="{{class}}">
-        <div class="img" style="background-image: url('{{img}}');">
-        </div>
+        <div class="white-layer"></div>
+        <div class="img" style="background-image: url('{{img}}');"></div>
       </li>
       {{/each}}
     </ul>
