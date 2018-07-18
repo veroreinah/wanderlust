@@ -1,13 +1,13 @@
 $(function() {
-  // Destination
-  if (window.destinations) {
-    $.each(window.destinations, (i, e) => {
-      $(`#destination option[value='${e.placeId}-${e.name}']`).prop("selected", true);
-    });
-  }
-
   const destinationField = $("#destination");
-  destinationField.chosen();
+  destinationField.select2({
+    placeholder: "Select destination",
+    ajax: {
+      url: params => `/places/${params.term}`,
+      dataType: "json"
+    },
+    minimumInputLength: 3
+  });
 
   // Dates
   const datesField = $("#dates");

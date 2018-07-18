@@ -34,22 +34,12 @@ router.get("/", ensureLoggedIn(), (req, res, next) => {
 });
 
 router.get("/create", ensureLoggedIn(), (req, res, next) => {
-  const promises = [Country.find(), City.find()];
-
-  Promise.all(promises)
-    .then(data => {
-      res.render("trip/create", {
-        message: req.flash("error"),
-        successMessage: req.flash("success"),
-        tripsActive: " active",
-        useDateRange: true,
-        countries: data[0],
-        cities: data[1]
-      });
-    })
-    .catch(err => {
-      next(err);
-    });
+  res.render("trip/create", {
+    message: req.flash("error"),
+    successMessage: req.flash("success"),
+    tripsActive: " active",
+    useDateRange: true
+  });
 });
 
 router.post("/create", upload.single("picture"), ensureLoggedIn(), (req, res, next) => {
@@ -216,12 +206,8 @@ router.get("/:id/delete", (req, res, next) => {
 });
 
 router.get("/:id/edit", ensureLoggedIn(), (req, res, next) => {
-  const promises = [Country.find(), City.find(), Trip.findById(req.params.id)];
-
-  Promise.all(promises)
-    .then(data => {
-      const trip = data[2];
-
+  Trip.findById(req.params.id)
+    .then(trip => {
       trip.dateRange = `${moment(trip.dateStart).format("MM/DD/YYYY")} - ${moment(trip.dateEnd).format("MM/DD/YYYY")}`;
 
       res.render("trip/edit", {
@@ -229,10 +215,8 @@ router.get("/:id/edit", ensureLoggedIn(), (req, res, next) => {
         successMessage: req.flash("success"),
         tripsActive: " active",
         useDateRange: true,
-        countries: data[0],
-        cities: data[1],
         trip,
-        destinations: JSON.stringify(trip.destinations)
+        destinations: trip.destinations
       });
     })
     .catch(err => {

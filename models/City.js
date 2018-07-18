@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const CitySchema = Schema({
   sygicId: String,
   name: String,
-  countryId: String,
+  countrySygicId: String,
+  countryId: { type: Schema.Types.ObjectId, ref: "Country" },
   pois: []
 });
 CitySchema.set("timestamps", true);
