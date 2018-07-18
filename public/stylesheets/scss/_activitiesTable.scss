@@ -1,7 +1,11 @@
 .table-activities {
+  td, th {
+    padding: 5px;
+  }
   .activity {
     padding: 5px;
     margin-bottom: 5px;
+    min-width: 120px;
     .actions {
       border-top: 1px dotted $lightGrey;
       margin-top: 5px;

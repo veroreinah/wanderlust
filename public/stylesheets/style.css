@@ -238,9 +238,13 @@ textarea {
     background-color: #f5f7fa;
     border-color: #e6e9ed; }
 
+.table-activities td, .table-activities th {
+  padding: 5px; }
+
 .table-activities .activity {
   padding: 5px;
-  margin-bottom: 5px; }
+  margin-bottom: 5px;
+  min-width: 120px; }
   .table-activities .activity .actions {
     border-top: 1px dotted #ddd;
     margin-top: 5px;
