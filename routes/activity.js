@@ -129,4 +129,14 @@ router.post("/create", (req, res, next) => {
     })
 });
 
+router.get("/:id/:tripId/delete", (req, res, next) => {
+  Activity.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.redirect(`/trips/${req.params.tripId}`);
+    })
+    .catch(err => {
+      next();
+    });
+});
+
 module.exports = router;

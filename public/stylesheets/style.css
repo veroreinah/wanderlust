@@ -180,4 +180,21 @@ textarea {
     background-color: #f5f7fa;
     border-color: #e6e9ed; }
 
+.table-activities .activity {
+  padding: 5px;
+  margin-bottom: 5px; }
+  .table-activities .activity .actions {
+    border-top: 1px dotted #ddd;
+    margin-top: 5px;
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-around; }
+    .table-activities .activity .actions a, .table-activities .activity .actions a:hover {
+      color: #212529;
+      text-decoration: none; }
+    .table-activities .activity .actions a {
+      opacity: 0.7; }
+      .table-activities .activity .actions a:hover {
+        opacity: 1; }
+
 /*# sourceMappingURL=style.css.map */

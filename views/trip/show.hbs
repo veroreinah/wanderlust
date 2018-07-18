@@ -16,10 +16,10 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row mb-4">
     <div class="col-12 col-md-8">
       <form action="/activities/search/{{trip._id}}" method="POST">
-        <div class="input-group mb-3">
+        <div class="input-group">
           <input type="text" class="form-control" placeholder="New plan..." name="query" required>
           <select name="destination" id="destination" class="custom-select" required>
             {{#each trip.destinations}}
@@ -33,7 +33,7 @@
       </form>
     </div>
     <div class="col-12 col-md-4">
-      <div class="btn-wanderlust-container mb-3">
+      <div class="btn-wanderlust-container">
         <a href="/trips/{{trip._id}}/edit" class="btn btn-wanderlust">
           <span><i class="fas fa-pencil-alt"></i>Edit</span>
         </a>
@@ -41,6 +41,46 @@
           <span><i class="fas fa-trash-alt"></i>Remove</span>
         </a>
       </div>
+    </div>
+  </div>
+  {{#if dates}}
+  <div class="row">
+    <div class="col">
+      <div class="table-responsive table-activities mb-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              {{#each dates}}
+              <th scope="col">{{date}}</th>
+              {{/each}}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {{#each dates}}
+              <td>
+                {{#each activities}}
+                  <div class="activity small" style="background: {{color}};">
+                    {{name}}
+                    <div class="actions">
+                      {{#if placeId.url}}
+                      <a href="{{placeId.url}}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                      {{/if}}
+                      <a href="/activities/{{_id}}/{{../../trip._id}}/delete"><i class="fas fa-trash"></i></a>
+                    </div>
+                  </div>
+                {{/each}}
+              </td>
+              {{/each}}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  <div class="row">
+    <div class="col">
       <p>{{trip.description}}</p>
     </div>
   </div>

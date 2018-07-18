@@ -106,6 +106,8 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
   let pois = [];
 
   Trip.findById(req.params.id)
+    .populate("activities")
+    .populate({ path: "activities", populate: { path: "placeId" } })
     .then(trip => {
       if (req.user._id.toString() !== trip.userId.toString()) {
         res.redirect("/");
@@ -217,9 +219,26 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
         p.sygicId = p.id;
       });
 
+      const dates = daysBetweenDates(resultTrip.dateStart, resultTrip.dateEnd);
+      const datesWithActivities = [];
+
+      if (resultTrip.activities.length) {
+        dates.forEach(d => {
+          const act = resultTrip.activities.filter(a => {
+            return moment(d).format("MM/DD/YYYY") === moment(a.date).format("MM/DD/YYYY")
+          })
+  
+          datesWithActivities.push({
+            date: moment(d).format("MM/DD/YYYY"),
+            activities: act
+          });
+        });
+      }
+
       res.render("trip/show", { 
         trip: resultTrip, 
         pois,
+        dates: datesWithActivities,
         tripsActive: " active"
       });
     })
@@ -297,5 +316,19 @@ router.post("/:id/edit", upload.single("picture"), ensureLoggedIn(), (req, res, 
       res.redirect(`/trips/${req.params.id}/edit`);
     });
 });
+
+const daysBetweenDates = (startDate, endDate) => {
+  let dates = [];
+
+  let currDate = moment(startDate).startOf('day');
+  let lastDate = moment(endDate).startOf('day');
+  
+  while(currDate.add(1, 'days').diff(lastDate) <= 0) {
+    dates.push(currDate.clone().toDate());
+  }
+  dates.push(currDate.clone().toDate());
+  
+  return dates;
+};
 
 module.exports = router;

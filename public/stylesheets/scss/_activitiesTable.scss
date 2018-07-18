@@ -1,0 +1,23 @@
+.table-activities {
+  .activity {
+    padding: 5px;
+    margin-bottom: 5px;
+    .actions {
+      border-top: 1px dotted $lightGrey;
+      margin-top: 5px;
+      padding-top: 5px;
+      display: flex;
+      justify-content: space-around;
+      a, a:hover {
+        color: $black;
+        text-decoration: none;
+      }
+      a {
+        opacity: 0.7;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
