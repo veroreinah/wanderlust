@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <a class="btn-back" href="/trips/{{tripId}}">
+        <i class="fas fa-angle-left"></i> Back to trip page
+      </a>
+      <h1>New activity 🎡</h1>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      {{#if message}}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      {{/if}}
+      {{#if successMessage}}
+        <div class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      {{/if}}
+      <form id="createTripForm" action="/activities/create" method="post">
+        <input type="hidden" name="tripId" value="{{tripId}}">
+        <input type="hidden" name="poiId" value="{{poiId}}">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" class="form-control" required value="{{name}}">
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea name="description" id="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="text" name="date" id="date" class="form-control" min="{{minDate}}" max="{{maxDate}}" required>
+        </div>
+        <div class="form-group color-picker">
+          <label for="color">Color</label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color1" value="ED5565">
+              <label class="form-check-label fas grapefruit" for="color1"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color2" value="FC6E51">
+              <label class="form-check-label fas bittersweet" for="color2"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color3" value="FFCE54">
+              <label class="form-check-label fas sunflower" for="color3"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color4" value="A0D468">
+              <label class="form-check-label fas grass" for="color4"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color5" value="48CFAD">
+              <label class="form-check-label fas mint" for="color5"></label>
+            </div>
+          </div>
+          <div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color6" value="4FC1E9">
+              <label class="form-check-label fas aqua" for="color6"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color7" value="5D9CEC">
+              <label class="form-check-label fas bluejeans" for="color7"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color8" value="AC92EC">
+              <label class="form-check-label fas lavender" for="color8"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color9" value="EC87C0">
+              <label class="form-check-label fas pinkrose" for="color9"></label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input d-none" type="radio" name="color" id="color10" value="F5F7FA" checked>
+              <label class="form-check-label fas lightgray" for="color10"></label>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-wanderlust" type="submit">
+          <span>Create</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

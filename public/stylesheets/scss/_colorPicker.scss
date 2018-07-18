@@ -1,0 +1,72 @@
+.color-picker {
+  .form-check {
+    input {
+      &:checked {
+        + label {
+          &:after {
+            color: $black;
+          }
+        }
+      }
+    }
+    label {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 20px 10px 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px #ababab;
+      text-align: center;
+      &:after {
+        content: "\f00c";
+        color: transparent;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+      }
+      &.grapefruit {
+        background-color: #ed5565;
+        border-color: #da4453;
+      }
+      &.bittersweet {
+        background-color: #fc6e51;
+        border-color: #e9573f;
+      }
+      &.sunflower {
+        background-color: #ffce54;
+        border-color: #f6bb42;
+      }
+      &.grass {
+        background-color: #a0d468;
+        border-color: #8cc152;
+      }
+      &.mint {
+        background-color: #48cfad;
+        border-color: #37bc9b;
+      }
+      &.aqua {
+        background-color: #4fc1e9;
+        border-color: #3bafda;
+      }
+      &.bluejeans {
+        background-color: #5d9cec;
+        border-color: #4a89dc;
+      }
+      &.lavender {
+        background-color: #ac92ec;
+        border-color: #967adc;
+      }
+      &.pinkrose {
+        background-color: #ec87c0;
+        border-color: #d770ad;
+      }
+      &.lightgray {
+        background-color: #f5f7fa;
+        border-color: #e6e9ed;
+      }
+    }
+  }
+}

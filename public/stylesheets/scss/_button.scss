@@ -1,3 +1,13 @@
+.btn-back {
+  color: $pink;
+  transition: color 200ms;
+  margin-bottom: 10px;
+  &:hover {
+    color: $orange;
+    text-decoration: none;
+  }
+}
+
 .btn-wanderlust-container {
   display: flex;
   justify-content: space-between;

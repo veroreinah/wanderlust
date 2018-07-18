@@ -83,10 +83,12 @@ const indexRouter = require("./routes/index");
 const authRouter = require("./routes/authentication");
 const tripRouter = require("./routes/trip");
 const placeRouter = require("./routes/place");
+const activityRouter = require("./routes/activity");
 
 app.use("/", indexRouter);
 app.use("/", authRouter);
 app.use("/trips", tripRouter);
 app.use("/places", placeRouter);
+app.use("/activities", activityRouter);
 
 module.exports = app;

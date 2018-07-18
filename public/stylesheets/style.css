@@ -39,6 +39,9 @@ textarea {
   .owl-carousel .item {
     width: 150px;
     position: relative; }
+    .owl-carousel .item img {
+      height: 150px;
+      object-fit: cover; }
     .owl-carousel .item .add-activity {
       position: absolute;
       top: 0;
@@ -82,6 +85,14 @@ textarea {
   .navbar-wanderlust .btn-outline-light:hover {
     color: #e91e63; }
 
+.btn-back {
+  color: #e91e63;
+  transition: color 200ms;
+  margin-bottom: 10px; }
+  .btn-back:hover {
+    color: #ff5722;
+    text-decoration: none; }
+
 .btn-wanderlust-container {
   display: flex;
   justify-content: space-between; }
@@ -117,5 +128,56 @@ textarea {
       background: transparent; }
   .btn.btn-wanderlust:not(.disabled):active:active {
     background-image: linear-gradient(to right, #ff5722 0%, #e91e63 100%); }
+
+.color-picker .form-check input:checked + label:after {
+  color: #212529; }
+
+.color-picker .form-check label {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 20px 10px 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px #ababab;
+  text-align: center; }
+  .color-picker .form-check label:after {
+    content: "\f00c";
+    color: transparent;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px; }
+  .color-picker .form-check label.grapefruit {
+    background-color: #ed5565;
+    border-color: #da4453; }
+  .color-picker .form-check label.bittersweet {
+    background-color: #fc6e51;
+    border-color: #e9573f; }
+  .color-picker .form-check label.sunflower {
+    background-color: #ffce54;
+    border-color: #f6bb42; }
+  .color-picker .form-check label.grass {
+    background-color: #a0d468;
+    border-color: #8cc152; }
+  .color-picker .form-check label.mint {
+    background-color: #48cfad;
+    border-color: #37bc9b; }
+  .color-picker .form-check label.aqua {
+    background-color: #4fc1e9;
+    border-color: #3bafda; }
+  .color-picker .form-check label.bluejeans {
+    background-color: #5d9cec;
+    border-color: #4a89dc; }
+  .color-picker .form-check label.lavender {
+    background-color: #ac92ec;
+    border-color: #967adc; }
+  .color-picker .form-check label.pinkrose {
+    background-color: #ec87c0;
+    border-color: #d770ad; }
+  .color-picker .form-check label.lightgray {
+    background-color: #f5f7fa;
+    border-color: #e6e9ed; }
 
 /*# sourceMappingURL=style.css.map */

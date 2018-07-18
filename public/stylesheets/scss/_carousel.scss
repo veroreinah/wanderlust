@@ -4,6 +4,10 @@
   .item {
     width: 150px;
     position: relative;
+    img {
+      height: 150px;
+      object-fit: cover;
+    }
     .add-activity {
       position: absolute;
       top: 0;

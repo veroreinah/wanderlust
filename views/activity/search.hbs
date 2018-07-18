@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <a class="btn-back" href="/trips/{{tripId}}">
+        <i class="fas fa-angle-left"></i> Back to trip page
+      </a>
+      <h1>Search 🗺</h1>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h2>Results</h2>
+      {{#if places}}
+        <p>Choose one of the next places...</p>
+        <div class="owl-carousel mb-3">
+        {{#each places}}
+          {{> poiThumbnail this}}
+        {{/each}}
+        </div>
+        <p>Or <a href="/activities/create/{{tripId}}">create your own activity</a>.</p>
+      {{else}}
+        <p>No results found, create your own activity.</p>
+        <a href="/activities/create/{{tripId}}" class="btn btn-wanderlust">
+          <span>Continue</span>
+        </a>
+      {{/if}}
+    </div>
+  </div>
+</div>

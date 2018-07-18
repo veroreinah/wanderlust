@@ -11,21 +11,26 @@
       <h3>Best plans in {{trip.destinationsString}}</h3>
       <div class="owl-carousel mb-3">
       {{#each pois}}
-        <div class="item">
-          <img class="fluid-img mb-1" src="{{thumbnail_url}}" alt="{{name}}">
-          <h5 class="text-truncate mb-0">{{name}}</h5>
-          <p class="small text-truncate">{{name_suffix}}</p>
-          <div class="add-activity">
-            <a href="/activities/create/{{../trip._id}}/{{id}}" class="text-center"><i class="fas fa-plus"></i></a>
-          </div>
-        </div>
+        {{> poiThumbnail this}}
       {{/each}}
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-12 col-md-8">
-      Add plans
+      <form action="/activities/search/{{trip._id}}" method="POST">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="New plan..." name="query" required>
+          <select name="destination" id="destination" class="custom-select" required>
+            {{#each trip.destinations}}
+            <option value="{{placeId}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Add</button>
+          </div>
+        </div>
+      </form>
     </div>
     <div class="col-12 col-md-4">
       <div class="btn-wanderlust-container mb-3">

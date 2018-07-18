@@ -6,6 +6,7 @@ const { ensureLoggedIn } = require("connect-ensure-login");
 const Trip = require("../models/Trip");
 const Country = require("../models/Country");
 const City = require("../models/City");
+const Poi = require("../models/Poi");
 const moment = require("moment");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/trips/" });
@@ -168,6 +169,33 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
             Country.findOneAndUpdate({ sygicId }, { pois: placePois })
           );
         }
+
+        placePois.forEach(p => {
+          if (!p.thumbnail_url) {
+            p.thumbnail_url = "/images/trip.jpg";
+          }
+
+          const { name, name_suffix, url, marker, categories, thumbnail_url } = p;
+          const newPoi = new Poi({ name, name_suffix, url, marker, categories, thumbnail_url });
+          newPoi.sygicId = p.id;
+          newPoi.description = p.perex;
+
+          if (p.location) {
+            newPoi.location = {
+              type: 'Point',
+              coordinates: [p.location.lat, p.location.lng]
+            }
+          }
+          let result = newPoi.save().catch(e => {
+            if(e.name == "MongoError" && e.code==11000) { // Duplicate key
+              console.log(`Duplicated POI already in Database ${p.id}`);
+              return;
+            }
+            throw e;
+          })
+          
+          dbPromises.push(result);
+        });
       });
 
       return Promise.all(dbPromises);
@@ -183,6 +211,11 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
 
         return acc + sep + currentValue.name;
       }, "");
+
+      pois.forEach(p => { 
+        p.tripId = req.params.id;
+        p.sygicId = p.id;
+      });
 
       res.render("trip/show", { 
         trip: resultTrip, 
