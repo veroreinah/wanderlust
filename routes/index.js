@@ -16,4 +16,8 @@ router.get("/", (req, res, next) => {
   });
 });
 
+router.get("/credits", (req, res, next) => {
+  res.render("credits");
+});
+
 module.exports = router;
