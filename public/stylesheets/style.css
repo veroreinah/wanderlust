@@ -271,4 +271,12 @@ textarea {
   .error404 .btn:hover {
     text-shadow: none; }
 
+.inspi-card .card-img-overlay {
+  opacity: 0;
+  transition: opacity 300ms;
+  background: rgba(0, 0, 0, 0.6); }
+
+.inspi-card:hover .card-img-overlay {
+  opacity: 1; }
+
 /*# sourceMappingURL=style.css.map */

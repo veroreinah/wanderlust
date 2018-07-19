@@ -1,0 +1,11 @@
+<div class="card inspi-card bg-dark text-white mb-3">
+  <img class="card-img" src="{{main_media.media.[0].url}}" alt="{{name}}">
+  <div class="card-img-overlay">
+    <h3 class="card-title">{{name}}</h3>
+    <h6>- {{name_suffix}} -</h6>
+    <p class="card-text text-truncate">{{perex}}</p>
+    {{#if url}}
+      <a href="{{url}}" target="_blank" class="btn btn-outline-light btn-lg">More info</a>
+    {{/if}}
+  </div>
+</div>

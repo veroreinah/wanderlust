@@ -1,0 +1,12 @@
+.inspi-card {
+  .card-img-overlay {
+    opacity: 0;
+    transition: opacity 300ms;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  &:hover {
+    .card-img-overlay {
+      opacity: 1;
+    }
+  }
+}

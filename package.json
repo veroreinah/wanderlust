@@ -25,6 +25,7 @@
     "express": "~4.16.0",
     "express-session": "^1.15.6",
     "hbs": "~4.0.1",
+    "lodash": "^4.17.10",
     "mjml": "^4.1.0",
     "moment": "^2.22.2",
     "mongoose": "~4.13.4",
