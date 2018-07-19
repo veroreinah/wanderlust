@@ -23,23 +23,20 @@
     </div>
   </div>
   {{#if trips}}
-  <div class="row">
-    <div class="col-12">
-      <div class="masonry mt-3">
-        {{#each trips}}
-          <a href="/trips/{{_id}}" class="item">
-            <div>
-              <img class="img-fluid" src="{{tripPicName}}" alt="{{name}}">
-              <div class="data">
-              <h4>{{name}}</h4>
-              <small>{{date_start}} - {{date_end}}</small>
-              </div>
-            </div>
-          </a>
-        {{/each}}
-        <div></div>
-      </div>
+  <div class="row trips-list mt-3">
+    {{#each trips}}
+    <div class="col-12 col-md-6 col-lg-4">
+      <a href="/trips/{{_id}}" class="item">
+        <div>
+          <img class="img-fluid" src="{{tripPicName}}" alt="{{name}}">
+          <div class="data">
+          <h4>{{name}}</h4>
+          <small>{{date_start}} - {{date_end}}</small>
+          </div>
+        </div>
+      </a>
     </div>
+    {{/each}}
   </div>
   {{/if}}
 </div>
