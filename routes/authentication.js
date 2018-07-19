@@ -9,6 +9,12 @@ const bcryptSalt = 10;
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/users/" });
+const cloudinary = require("cloudinary");
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
 const base64Img = require("base64-img");
 const { sendMail } = require("../mailing/sendMail");
 
@@ -52,14 +58,37 @@ router.post("/signup", ensureLoggedOut(), upload.none(), (req, res) => {
     }
   });
 
+  let profilePicName = "/images/avatar.png";
+
   checkFields.then(() => {
-    base64Img.img(profilePic, "uploads/users/", username, (err, filepath) => {
-      if (err) {
-        throw new Error(err.message);
-      }
+    const base64Promise = new Promise((resolve, reject) => {
+      base64Img.img(profilePic, "uploads/users/", new Date().getTime(), (err, filepath) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(filepath);
+        }
+      });
     });
+
+    return base64Promise;
   })
-  .then(() => {
+  .then(filepath => {
+    const cloudinaryPromise = new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(filepath, result => {
+        if (result.hasOwnProperty('public_id')) {
+          resolve(result);
+        } else {
+          reject(new Error("Error uploading file."));
+        }
+      }, { width: 640, folder: "users" });
+    });
+    
+    return cloudinaryPromise;
+  })
+  .then(result => {
+    profilePicName = result.secure_url;
+
     return User.findOne({ username });
   })
   .then(user => {
@@ -75,7 +104,7 @@ router.post("/signup", ensureLoggedOut(), upload.none(), (req, res) => {
       username,
       email,
       password: hashPass,
-      profilePicName: `/users/${username}.png`,
+      profilePicName,
       confirmationCode
     });
 
@@ -83,15 +112,15 @@ router.post("/signup", ensureLoggedOut(), upload.none(), (req, res) => {
   })
   .then(user => {
     req.flash("success", "Sign up complete! Check your email to validate your account.");
-    res.redirect("/signup");
+    res.redirect("/login");
 
     const subject = "Wanderlust - Confirm your account";
     const data = {
       username: user.username,
       url: `${process.env.URL}confirm/${user.confirmationCode}`,
       logo: `${process.env.URL}/images/logo/logo-white-s.png`,
-      bg1: `${process.env.URL}/images/mail/mail1.png`,
-      bg2: `${process.env.URL}/images/mail/mail2.png`
+      bg1: `${process.env.URL}/images/mail/mail1.jpg`,
+      bg2: `${process.env.URL}/images/mail/mail2.jpg`
     };
 
     sendMail(user.email, subject, data, "signup").then(() => {
@@ -179,14 +208,38 @@ router.post("/profile", ensureLoggedIn("/login"), upload.none(), (req, res) => {
   })
   .then(user => { // Change profile picture
     if (profilePic !== "") {
-      base64Img.img(profilePic, "uploads/users/", user.username, (err, filepath) => {
-        if (err) {
-          throw new Error(err.message);
-        }
+      const base64Promise = new Promise((resolve, reject) => {
+        base64Img.img(profilePic, "uploads/users/", new Date().getTime(), (err, filepath) => {
+          if (err) {
+            reject(new Error(err.message));
+          } else {
+            resolve(filepath);
+          }
+        });
       });
-
+  
+      return base64Promise;
+    }
+  })
+  .then(filepath => {
+    if (filepath) {
+      const cloudinaryPromise = new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(filepath, result => {
+          if (result.hasOwnProperty('public_id')) {
+            resolve(result);
+          } else {
+            reject(new Error("Error uploading file."));
+          }
+        }, { width: 640, folder: "users" });
+      });
+      
+      return cloudinaryPromise;
+    }
+  })
+  .then(result => {
+    if (result.hasOwnProperty('secure_url')) {
       return User.findByIdAndUpdate(req.user._id, {
-        profilePicName: `/users/${user.username}.png`,
+        profilePicName: result.secure_url
       });
     }
   })
