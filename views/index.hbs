@@ -3,6 +3,15 @@
     <h1 class="display-4">{{title}}</h1>
     <p class="lead">/ˈwɒndəˌlʌst/</p>
     <p class="lead">A strong desire to travel.</p>
+    {{#if user}}
+    <a href="/trips/create" class="btn btn-outline-light btn-lg">
+      <span>Start planning your next trip</span>
+    </a>
+    {{else}}
+    <a href="/inspiration" class="btn btn-outline-light btn-lg">
+      <span>Get inspired</span>
+    </a>
+    {{/if}}
   </div>
   <div id="component" class="component component-fullwidth">
     <ul class="itemwrap">

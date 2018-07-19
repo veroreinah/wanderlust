@@ -5,3 +5,7 @@ textarea {
 .select2-container {
   width: 100% !important;
 }
+
+#main {
+  min-height: calc(100vh - 121px);
+}

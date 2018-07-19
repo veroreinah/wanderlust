@@ -9,6 +9,11 @@
     z-index: 2;
     top: 50%;
     transform: translateY(-50%);
+    .btn {
+      &:hover {
+        text-shadow: none;
+      }
+    }
   }
   #component {
     height: 100vh !important;
