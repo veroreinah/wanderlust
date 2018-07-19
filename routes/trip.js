@@ -9,8 +9,7 @@ const Country = require("../models/Country");
 const City = require("../models/City");
 const Poi = require("../models/Poi");
 const moment = require("moment");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/trips/" });
+const uploadCloud = require("../config/cloudinary.js");
 const axios = require("axios");
 const axiosOptions = {
   baseURL: process.env.SYGIC_URL,
@@ -44,12 +43,12 @@ router.get("/create", ensureLoggedIn(), (req, res, next) => {
   });
 });
 
-router.post("/create", ensureLoggedIn(), upload.single("picture"), (req, res, next) => {
+router.post("/create", ensureLoggedIn(), uploadCloud.single("picture", { "width": 1024 }), (req, res, next) => {
   let { name, description, dates, destination } = req.body;
 
-  let tripPicName;
+  let tripPicName = "/images/trip.jpg";
   if (req.file) {
-    tripPicName = req.file.path.replace("uploads", "");
+    tripPicName = req.file.secure_url;
   }
 
   const checkFile = new Promise((resolve, reject) => {
@@ -274,7 +273,7 @@ router.get("/:id/edit", ensureLoggedIn(), ensureIsOwner("/", "id"), (req, res, n
     });
 });
 
-router.post("/:id/edit", ensureLoggedIn(), ensureIsOwner("/", "id"), upload.single("picture"), (req, res, next) => {
+router.post("/:id/edit", ensureLoggedIn(), ensureIsOwner("/", "id"), uploadCloud.single("picture", { "width": 1024 }), (req, res, next) => {
   let { name, description, dates, destination } = req.body;
   
   let datesArr = dates.split(" - ");
@@ -300,9 +299,9 @@ router.post("/:id/edit", ensureLoggedIn(), ensureIsOwner("/", "id"), upload.sing
     destinations
   })
     .then(trip => {
-      if (req.file) {
+      if (req.file && req.file.secure_url) {
         return Trip.findByIdAndUpdate(req.params.id, {
-          tripPicName: req.file.path.replace("uploads", ""),
+          tripPicName: req.file.secure_url
         });
       }
     })
