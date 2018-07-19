@@ -107,6 +107,7 @@ textarea {
       width: 100%; }
     .home #component .itemwrap > li .img {
       background-size: cover;
+      background-position: center;
       height: 100vh; }
     .home #component .itemwrap > li.overlay .white-layer {
       display: block; }

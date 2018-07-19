@@ -1,5 +1,7 @@
 const express = require('express');
 const router  = express.Router();
+const { ensureLoggedIn } = require("connect-ensure-login");
+const { ensureIsOwner } = require("../middleware/checkTripOwner");
 const Trip = require("../models/Trip");
 const Activity = require("../models/Activity");
 const Poi = require("../models/Poi");
@@ -10,7 +12,7 @@ const axiosOptions = {
   headers: { "x-api-key": process.env.SYGIC_API_KEY }
 };
 
-router.post('/search/:tripId', (req, res, next) => {
+router.post('/search/:tripId', ensureLoggedIn(), ensureIsOwner("/", "tripId"), (req, res, next) => {
   const { query, destination } = req.body;
 
   axios.get(`/places/list?query=${query}&parents=${destination}`, axiosOptions)
@@ -64,7 +66,7 @@ router.post('/search/:tripId', (req, res, next) => {
     });
 });
 
-router.get("/create/:tripId/:poiId", (req, res, next) => {
+router.get("/create/:tripId/:poiId", ensureLoggedIn(), ensureIsOwner("/", "tripId"), (req, res, next) => {
   const promises = [
     Poi.findOne({ sygicId: req.params.poiId }),
     Trip.findById(req.params.tripId)
@@ -87,7 +89,7 @@ router.get("/create/:tripId/:poiId", (req, res, next) => {
     });
 });
 
-router.get("/create/:tripId", (req, res, next) => {
+router.get("/create/:tripId", ensureLoggedIn(), ensureIsOwner("/", "tripId"), (req, res, next) => {
   Trip.findById(req.params.tripId)
     .then(trip => {
       res.render("activity/create", {
@@ -103,7 +105,7 @@ router.get("/create/:tripId", (req, res, next) => {
     });
 });
 
-router.post("/create", (req, res, next) => {
+router.post("/create", ensureLoggedIn(), ensureIsOwner("/", "tripId", true), (req, res, next) => {
   const { tripId, poiId, name, description } = req.body;
   const color = `#${req.body.color}`;
   const date = new Date(req.body.date);
@@ -129,7 +131,7 @@ router.post("/create", (req, res, next) => {
     })
 });
 
-router.get("/:id/:tripId/delete", (req, res, next) => {
+router.get("/:id/:tripId/delete", ensureLoggedIn(), ensureIsOwner("/", "tripId"), (req, res, next) => {
   Activity.findByIdAndRemove(req.params.id)
     .then(() => {
       res.redirect(`/trips/${req.params.tripId}`);

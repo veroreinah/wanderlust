@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const { ensureLoggedIn } = require("connect-ensure-login");
+const { ensureIsOwner } = require("../middleware/checkTripOwner");
 const Trip = require("../models/Trip");
 const Country = require("../models/Country");
 const City = require("../models/City");
@@ -43,7 +44,7 @@ router.get("/create", ensureLoggedIn(), (req, res, next) => {
   });
 });
 
-router.post("/create", upload.single("picture"), ensureLoggedIn(), (req, res, next) => {
+router.post("/create", ensureLoggedIn(), upload.single("picture"), (req, res, next) => {
   let { name, description, dates, destination } = req.body;
 
   let tripPicName;
@@ -101,7 +102,7 @@ router.post("/create", upload.single("picture"), ensureLoggedIn(), (req, res, ne
   }
 );
 
-router.get("/:id", ensureLoggedIn(), (req, res, next) => {
+router.get("/:id", ensureLoggedIn(), ensureIsOwner("/", "id"), (req, res, next) => {
   let resultTrip;
   let pois = [];
 
@@ -109,11 +110,6 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
     .populate("activities")
     .populate({ path: "activities", populate: { path: "placeId" } })
     .then(trip => {
-      if (req.user._id.toString() !== trip.userId.toString()) {
-        res.redirect("/");
-        return;
-      }
-
       resultTrip = trip;
 
       resultTrip.date_start = moment(trip.dateStart).format("MM/DD/YYYY");
@@ -134,17 +130,19 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
     .then(placesData => {
       const apiPromises = [];
       placesData.forEach(e => {
-        if (e.pois.length > 0) {
-          console.log("from database");
-          pois = pois.concat(e.pois);
-        } else {
-          console.log("from api");
-          apiPromises.push(
-            axios.get(
-              `/places/list?parents=${e.sygicId}&level=poi&limit=5`,
-              axiosOptions
-            )
-          );
+        if (e !== null) {
+          if (e.pois.length > 0) {
+            console.log("from database");
+            pois = pois.concat(e.pois);
+          } else {
+            console.log("from api");
+            apiPromises.push(
+              axios.get(
+                `/places/list?parents=${e.sygicId}&level=poi&limit=5`,
+                axiosOptions
+              )
+            );
+          }
         }
       });
 
@@ -173,7 +171,7 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
         }
 
         placePois.forEach(p => {
-          if (!p.thumbnail_url) {
+          if (!p.thumbnail_url || p.thumbnail_url === null) {
             p.thumbnail_url = "/images/trip.jpg";
           }
 
@@ -247,7 +245,7 @@ router.get("/:id", ensureLoggedIn(), (req, res, next) => {
     });
 });
 
-router.get("/:id/delete", (req, res, next) => {
+router.get("/:id/delete", ensureLoggedIn(), ensureIsOwner("/", "id"), (req, res, next) => {
   Trip.findByIdAndRemove(req.params.id)
     .then(() => {
       res.redirect("/trips");
@@ -257,7 +255,7 @@ router.get("/:id/delete", (req, res, next) => {
     });
 });
 
-router.get("/:id/edit", ensureLoggedIn(), (req, res, next) => {
+router.get("/:id/edit", ensureLoggedIn(), ensureIsOwner("/", "id"), (req, res, next) => {
   Trip.findById(req.params.id)
     .then(trip => {
       trip.dateRange = `${moment(trip.dateStart).format("MM/DD/YYYY")} - ${moment(trip.dateEnd).format("MM/DD/YYYY")}`;
@@ -276,7 +274,7 @@ router.get("/:id/edit", ensureLoggedIn(), (req, res, next) => {
     });
 });
 
-router.post("/:id/edit", upload.single("picture"), ensureLoggedIn(), (req, res, next) => {
+router.post("/:id/edit", ensureLoggedIn(), ensureIsOwner("/", "id"), upload.single("picture"), (req, res, next) => {
   let { name, description, dates, destination } = req.body;
   
   let datesArr = dates.split(" - ");
@@ -323,10 +321,10 @@ const daysBetweenDates = (startDate, endDate) => {
   let currDate = moment(startDate).startOf('day');
   let lastDate = moment(endDate).startOf('day');
   
+  dates.push(currDate.clone().toDate());
   while(currDate.add(1, 'days').diff(lastDate) <= 0) {
     dates.push(currDate.clone().toDate());
   }
-  dates.push(currDate.clone().toDate());
   
   return dates;
 };
